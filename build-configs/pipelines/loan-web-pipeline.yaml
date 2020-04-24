@@ -1,0 +1,18 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: loan-web
+  namespace: bsl-lacerda-demo
+spec:
+  runPolicy: Serial
+  source:
+    git:
+      ref: demo-redhat
+      uri: https://github.com/bsllacerda/loan-web.git
+  strategy:
+    type: JenkinsPipeline
+    jenkinsPipelineStrategy:
+      jenkinsfilePath: 
+  output:
+  resources:
+  postCommit:
