@@ -10,10 +10,10 @@ spec:
     jenkinsPipelineStrategy:
       jenkinsfile: |-
         node('') {
-          stage 'buildInDevelopment' {
+          stage('buildInDevelopment') {
             openshiftBuild(namespace:'bsl-lacerda-demo',buildConfig: 'loan-web', showBuildLogs: 'true')
           }
-          stage 'deployInDevelopment' {
+          stage('deployInDevelopment') {
             openshiftDeploy(namespace:'bsl-lacerda-demo',deploymentConfig: 'loan-web')
             openshiftScale(namespace:'bsl-lacerda-demo',deploymentConfig: 'loan-web',replicaCount: '2')          
           }
