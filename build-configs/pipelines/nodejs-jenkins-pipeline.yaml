@@ -1,0 +1,23 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: nodejs-pipeline
+  namespace: bsl-lacerda-demo
+spec:
+  runPolicy: Serial
+  strategy:
+    type: JenkinsPipeline
+    jenkinsPipelineStrategy:
+      jenkinsfile: |-
+        node('') {
+          stage 'buildInDevelopment' {
+            openshiftBuild(namespace:'bsl-lacerda-demo',buildConfig: 'loan-web', showBuildLogs: 'true')
+          }
+          stage 'deployInDevelopment' {
+            openshiftDeploy(namespace:'bsl-lacerda-demo',deploymentConfig: 'loan-web')
+            openshiftScale(namespace:'bsl-lacerda-demo',deploymentConfig: 'loan-web',replicaCount: '2')          
+          }
+        }
+  output:
+  resources:
+  postCommit:
