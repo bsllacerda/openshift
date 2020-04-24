@@ -1,7 +1,7 @@
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
-  name: nodejs-pipeline
+  name: nodejs-jenkins-pipeline
   namespace: bsl-lacerda-demo
 spec:
   runPolicy: Serial
