@@ -1,0 +1,37 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: nodejs-jenkins-pipeline
+  namespace: bsl-lacerda-demo
+spec:
+  runPolicy: Serial
+  strategy:
+    type: JenkinsPipeline
+    jenkinsPipelineStrategy:
+      jenkinsfile: |-
+        pipeline {
+          agent {
+            node {
+              label 'nodejs' 
+            }
+          }
+          options {
+            timeout(time: 20, unit: 'MINUTES') 
+          }
+          stages {
+            stage('preamble') {
+                steps {
+                    script {
+                        openshift.withCluster() {
+                            openshift.withProject() {
+                                echo "Using project: ${openshift.project()}"
+                            }
+                        }
+                    }
+                }
+            }
+          }
+        }
+  output:
+  resources:
+  postCommit:
