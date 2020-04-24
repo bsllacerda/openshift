@@ -12,7 +12,8 @@ spec:
   strategy:
     type: JenkinsPipeline
     jenkinsPipelineStrategy:
-      jenkinsfilePath: https://raw.githubusercontent.com/bsllacerda/openshift/dev/build-configs/pipelines/JenkinsFile
+      #jenkinsfilePath: https://raw.githubusercontent.com/bsllacerda/openshift/dev/build-configs/pipelines/JenkinsFile
+      jenkinsfilePath: JenkinsFile
   output:
   resources:
   postCommit:
