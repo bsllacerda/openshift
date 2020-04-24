@@ -1,7 +1,7 @@
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
-  name: loan-web
+  name: loan-web-pipeline
   namespace: bsl-lacerda-demo
 spec:
   runPolicy: Serial
