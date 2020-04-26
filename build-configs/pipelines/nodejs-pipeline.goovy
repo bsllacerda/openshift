@@ -21,21 +21,29 @@ pipeline {
             }
         }
         stage('build') {
-            openshift.withCluster() {
-                openshift.withProject() {
-                    def bld = openshift.startBuild('${NAME}')
-                    bld.untilEach {
-                        return it.object().status.phase == "Running"
+            steps {
+                script {
+                    openshift.withCluster() {
+                        openshift.withProject() {
+                            def bld = openshift.startBuild('${NAME}')
+                            bld.untilEach {
+                                return it.object().status.phase == "Running"
+                            }
+                            bld.logs('-f')
+                        }  
                     }
-                    bld.logs('-f')
-                }  
+                }
             }
         }
         stage('deploy') {
-            openshift.withCluster() {
-                openshift.withProject() {
-                    def dc = openshift.selector('dc', '${NAME}')
-                    dc.rollout().latest()
+            steps {
+                script {
+                    openshift.withCluster() {
+                        openshift.withProject() {
+                            def dc = openshift.selector('dc', '${NAME}')
+                            dc.rollout().latest()
+                        }
+                    }
                 }
             }
         }
