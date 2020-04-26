@@ -9,16 +9,35 @@ pipeline {
       timeout(time: 20, unit: 'MINUTES') 
     }
     stages {
-    stage('preamble') {
-        steps {
-            script {
-                openshift.withCluster() {
-                    openshift.withProject() {
-                        echo "Using project: ${openshift.project()}"
+        stage('Verify Project') {
+            steps {
+                script {
+                    openshift.withCluster() {
+                        openshift.withProject() {
+                            echo "Using project: ${openshift.project()}"
+                        }
                     }
                 }
             }
         }
-    }
+        stage('build') {
+            openshift.withCluster() {
+                openshift.withProject() {
+                    def bld = openshift.startBuild('${NAME}')
+                    bld.untilEach {
+                        return it.object().status.phase == "Running"
+                    }
+                    bld.logs('-f')
+                }  
+            }
+        }
+        stage('deploy') {
+            openshift.withCluster() {
+                openshift.withProject() {
+                    def dc = openshift.selector('dc', '${NAME}')
+                    dc.rollout().latest()
+                }
+            }
+        }
     }
 }
