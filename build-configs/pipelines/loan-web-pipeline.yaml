@@ -14,6 +14,10 @@ spec:
     jenkinsPipelineStrategy:
       #jenkinsfilePath: https://raw.githubusercontent.com/bsllacerda/openshift/dev/build-configs/pipelines/JenkinsFile
       jenkinsfilePath: JenkinsFile
+  triggers:
+    - github:
+        secret: syo1NZRWY3uqRhVaWDO8
+      type: GitHub
   output:
   resources:
   postCommit:
