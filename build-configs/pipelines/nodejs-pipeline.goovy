@@ -38,17 +38,17 @@ pipeline {
                 }
             }
         }
-        stage('deploy') {
-            steps {
-                script {
-                    openshift.withCluster() {
-                        openshift.withProject() {
-                            def dc = openshift.selector('dc', '${NAME}')
-                            dc.rollout().latest()
-                        }
-                    }
-                }
-            }
-        }
+        //stage('deploy') {
+        //    steps {
+        //        script {
+        //            openshift.withCluster() {
+        //                openshift.withProject() {
+        //                    def dc = openshift.selector('dc', '${NAME}')
+        //                    dc.rollout().latest()
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
