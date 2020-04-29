@@ -45,7 +45,7 @@ pipeline {
                         openshift.withProject() {
                             // def dc = openshift.selector('dc', '${NAME}')
                             // dc.rollout().latest()
-                            openshift.selector("dc", '${NAME}').related('pods').untilEach(1) {
+                            openshift.selector("dc", '${NAME}').related('pods').untilEach(2) {
                                 return (it.object().status.phase == "Running")
                             }
                         }
