@@ -25,10 +25,13 @@ pipeline {
                 script {
                     openshift.withCluster() {
                         openshift.withProject() {
+                            echo "Starting Build: ${NAME}"
                             def bld = openshift.startBuild('${NAME}')
                             bld.untilEach {
+                                 echo "UntilEach: ${NAME}"
                                 return it.object().status.phase == "Running"
                             }
+                            echo "Logs: ${NAME}"
                             bld.logs('-f')
                         }  
                     }
